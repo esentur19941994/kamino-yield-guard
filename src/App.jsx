@@ -12,12 +12,12 @@ import { RefreshCw, LayoutGrid, BarChart2 } from 'lucide-react'
 
 function Dashboard() {
   const {
-    positions,
-    marketVaults,
-    alerts,
-    totalValueUSD,
-    weightedApy,
-    potentialExtraYield,
+    positions = [],      // Дефолтное значение - пустой массив
+    marketVaults = [],
+    alerts = [],
+    totalValueUSD = 0,
+    weightedApy = 0,
+    potentialExtraYield = 0,
     loading,
     error,
     lastUpdated,
@@ -53,16 +53,16 @@ function Dashboard() {
           </div>
         )}
 
-        {/* Stats bar */}
+        {/* Stats bar - добавлена защита ?.length */}
         <StatsBar
           totalValueUSD={totalValueUSD}
           weightedApy={weightedApy}
           potentialExtraYield={potentialExtraYield}
-          alertCount={alerts.length}
+          alertCount={alerts?.length || 0}
         />
 
-        {/* Yield alerts */}
-        {alerts.length > 0 && <YieldAlert alerts={alerts} />}
+        {/* Yield alerts - добавлена защита ?.length */}
+        {alerts?.length > 0 && <YieldAlert alerts={alerts} />}
 
         {/* Tabs */}
         <div className="flex items-center gap-1 p-1 rounded-xl bg-surface-secondary border border-surface-border w-fit">
@@ -76,7 +76,8 @@ function Dashboard() {
           >
             <LayoutGrid size={14} />
             My Positions
-            {positions.length > 0 && (
+            {/* Добавлена защита ?.length */}
+            {positions?.length > 0 && (
               <span className={`text-xs rounded-full px-1.5 py-0.5 ${activeTab === 'positions' ? 'bg-white/20' : 'bg-surface-border text-gray-400'}`}>
                 {positions.length}
               </span>
@@ -113,10 +114,10 @@ function Dashboard() {
           </div>
         )}
 
-        {/* Positions tab */}
+        {/* Positions tab - добавлена защита ?.length */}
         {!loading && activeTab === 'positions' && (
           <>
-            {positions.length === 0 ? (
+            {(positions?.length || 0) === 0 ? (
               <EmptyState />
             ) : (
               <div className="space-y-3">
@@ -130,7 +131,7 @@ function Dashboard() {
 
         {/* Markets tab */}
         {!loading && activeTab === 'markets' && (
-          <MarketOverview vaults={marketVaults} />
+          <MarketOverview vaults={marketVaults || []} />
         )}
 
         {/* Footer */}
