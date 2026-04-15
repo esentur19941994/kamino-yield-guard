@@ -10,7 +10,7 @@ import {
 } from '../services/kaminoService.js'
 
 // ВСТАВЬ СВОЮ ССЫЛКУ ИЗ QUICKNODE НИЖЕ
-const RPC_ENDPOINT = "https://necessary-floral-telescope.solana-mainnet.quiknode.pro/7c9ce79bb234cf07b42435bfaaed0d1c305bcac4/";
+const RPC_ENDPOINT = import.meta.env.VITE_QUICKNODE_RPC;
 
 export function useKaminoData() {
   const { publicKey, connected } = useWallet()
